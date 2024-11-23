@@ -41,6 +41,10 @@ public class AppTest {
         singup.completarFormulario("Gabriel Esteban","Riquieri Castro","38221647","06091994","3805444444","email@test.omniman","calle 456","Barrio X","Pais","Contraseña4567");
     }
 
+    public void test002(){
+        
+    }
+
     @AfterEach
     public void postConditions(){
 
