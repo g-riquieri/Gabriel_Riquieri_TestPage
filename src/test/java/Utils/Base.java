@@ -165,4 +165,34 @@ public class Base {
     public String getText(WebElement elemento, String texto){
         return elemento.getAttribute(texto);
     }
+
+    public void manejarModal(By locator) {
+        // Espera explícita para el botón "Continuar"
+        WebElement continuarButton = esperaExplicita(locator, 10);
+
+        // Verificar que sea visible y clickeable antes de hacer clic
+        if (continuarButton.isDisplayed() && continuarButton.isEnabled()) {
+            continuarButton.click();
+        } else {
+            System.out.println("El botón 'Continuar' no está disponible para hacer clic.");
+        }
+    }
+
+
+    public void ddlXIndex(WebElement element, int index) {
+        Select select = new Select(element);
+        select.selectByIndex(index);
+    }
+
+    public void seleccionarPorIndice(By locator, int indice) {
+        // Encontrar el elemento <select>
+        WebElement dropdown = buscarElemento(locator);
+
+        // Crear un objeto Select basado en el elemento <select>
+        Select select = new Select(dropdown);
+
+        // Seleccionar por índice
+        select.selectByIndex(indice);
+    }
 }
+
