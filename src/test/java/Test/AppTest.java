@@ -4,6 +4,8 @@ import Pages.LandingPage;
 import Pages.Login;
 import Pages.Panel;
 import Pages.SingUp;
+import Utils.Base;
+import Utils.DataDriven;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.prefs.BackingStoreException;
+
 public class AppTest {
     //variables
     private WebDriver driver;
@@ -21,6 +27,7 @@ public class AppTest {
     private static String rutaDriver = System.getProperty("user.dir")+"\\src\\test\\resources\\driver\\chromedriver.exe";
     private static String property = "webdriver.chrome.driver";
     private static String browser = "chrome";
+    private ArrayList<String> data;
 
     //páginas
     private LandingPage landing;
@@ -31,6 +38,7 @@ public class AppTest {
 
     @BeforeEach
     public void preConditions(){
+        data = new ArrayList<String>();
         landing = new LandingPage(driver);
         landing.conexionDriver(browser,rutaDriver,property);
         landing.maximize();
@@ -44,10 +52,11 @@ public class AppTest {
     @Test
     //Verificar que se pueda crear un usuario visitante correctamente.
     public void test001_CreacionDeUsuarioVisitante_Positivo() {
+        data= DataDriven.getTestData("test001_CreacionDeUsuarioVisitante_Positivo");
         landing.goToLogin();
         login.createAccaunt();
         singup.clickRadioButton();
-        singup.completarFormulario("Test 001","test001","12123121","06091994","3804111111","email@test.omniman","calle 456","Barrio X","Pais","Contraseña4567");
+        singup.completarFormulario(data.get(1), data.get(2), data.get(3), data.get(4), data.get(5),data.get(6),data.get(7),data.get(8),data.get(9),data.get(10));
         String respuestaEsperada = "Registro con éxito";
         singup.esperarXMilisegundos(3000);
         WebElement mensajeExito = wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -60,10 +69,11 @@ public class AppTest {
     @Test
     //Confirmar que no se permite la creación de usuario con campos vacíos.
     public void test002_CreacionDeUsuarioVisitante_Negtivo() {
+        data= DataDriven.getTestData("test002_CreacionDeUsuarioVisitante_Negtivo");
         landing.goToLogin();
         login.createAccaunt();
         singup.clickRadioButton();
-        singup.completarFormulario("Test 001","test001","11111111","06091994","","","calle 456","Barrio X","Pais","Contraseña4567");
+        singup.completarFormulario(data.get(1), data.get(2), data.get(3), data.get(4), data.get(5),data.get(6),data.get(7),data.get(8),data.get(9),data.get(10));
         WebElement mensajeError = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//div[contains(@class, 'alert-danger') and contains(text(),'Todos los campos son obligatorios')]")));
 
@@ -73,11 +83,11 @@ public class AppTest {
     @Test
     //Validar que el sistema no acepte correos con formato incorrecto.
     public void test003_VerificacionDeCorreo_Negativo(){
-        //Verificación de formato de correo
+        data= DataDriven.getTestData("test003_VerificacionDeCorreo_Negativo");
         landing.goToLogin();
         login.createAccaunt();
         singup.clickRadioButton();
-        singup.completarFormulario("Test 001","test001","11111111","06091994","3804111111","email-test.omniman","calle 456","Barrio X","Pais","Contraseña4567");
+        singup.completarFormulario(data.get(1), data.get(2), data.get(3), data.get(4), data.get(5),data.get(6),data.get(7),data.get(8),data.get(9),data.get(10));
         WebElement mensajeError = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//div[contains(@class, 'alert-danger') and contains(text(),'Correo no válido')]")));
 
@@ -87,9 +97,9 @@ public class AppTest {
     @Test
     //Confirmar que un visitante pueda inscribirse en una actividad correctamente.
     public void test004_InscripcionAActividad_Positivo(){
-        //Verificación de formato de correo
+        data= DataDriven.getTestData("test004_InscripcionAActividad_Positivo");
         landing.goToLogin();
-        login.login("12123121","Contraseña4567");
+        login.login(data.get(1), data.get(2));
         panel.inscription();
         WebElement mensajeExito = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("")));
@@ -100,15 +110,15 @@ public class AppTest {
     @Test
     //Confirmar que los datos del perfil se mantengan tras cerrar sesión.
     public void test005_InscripcionAActividad_Positivo(){
-        //Verificación de formato de correo
+        data= DataDriven.getTestData("test005_InscripcionAActividad_Positivo");
         landing.goToLogin();
-        login.login("12123121","Contraseña4567");
+        login.login(data.get(1), data.get(2));
         panel.cerrarSesion();
 
     }
 
     @AfterEach
     public void postConditions(){
-
+       landing.cerrar();
     }
 }

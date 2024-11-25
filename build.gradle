@@ -15,6 +15,17 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testImplementation 'org.apache.commons:commons-lang3:3.12.0' //agregada por Benja - genera un string aleatorio
+    testImplementation 'org.apache.poi:poi-ooxml:4.1.2'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    testImplementation 'org.apache.poi:poi:4.1.2'
+    testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")
+
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:31.1-jre'
 }
 
 test {
